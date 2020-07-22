@@ -27,11 +27,13 @@ Sampling Distributions and Hypothesis Testing
 
 Hypothesis Testing: From z to t
 
+Independent Sample t test
+
 Paired Data
 
 ### Comparing More than Two Means
 
-One-Way ANOVA
+[One-Way ANOVA](https://auqmer.github.io/ExperimenteR/onewayANOVA.html)
 
 Factorial ANOVA
 

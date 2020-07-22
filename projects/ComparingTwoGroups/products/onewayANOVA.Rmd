@@ -1,0 +1,358 @@
+---
+title: "One-Way ANOVA"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(knitr)
+opts_chunk$set(echo = TRUE, comment = NULL)
+library(dplyr)
+library(ggplot2)
+library(psych)
+library(car)
+```
+[link to contents](https://auqmer.github.io/ExperimenteR)
+
+When the goal is to compare more than two groups, analysis of variance (ANOVA) is a commonly used procedure.
+The goal of this tutorial is to provide an introduction to the simplest form of ANOVA, the One-Way ANOVA, which has a continuous outcome and one categorical variable indicating the groups to be compared.
+
+When we have more than two groups to compare, we have the problem of multiple comparisons.
+Let $J$ be the number of independent groups we wish to compare.
+For example, 
+
+
+There are two goals when comparing more than two groups. 
+First, we want to evaluate the omnibus test of whether there is systematic variability among the population means.
+If there is evidence of such variability, the second goal is to determine which means are different.
+
+This tutorial focuses on the first goal, and the tutorial on multiple comparisons addresses the second.
+
+```{r, functions, echo = FALSE}
+# Munge ANOVA data
+mng_aov <- function(x){
+  m <- matrix(x, nrow = 15, byrow = T)
+  score <- m[ ,1]
+  group <- m[ ,2]
+  d <- data.frame(group = factor(group, labels = c('A', 'B', 'C')),
+                  score)
+  return(d)
+}
+```
+
+## Analysis of Variacne (ANOVA)
+
+* We used the *t* test to compare 2 groups. 
+
+* How can we compare more than 2 groups?
+
+* Why not just conduct multiple *t* tests?
+
+## ANOVA 
+
+* The difference between the ANOVA and t-test is primarily related to the Independent Variable.
+
+* While a t-test requires an IV with only two levels, ANOVA allows us to use IVs with more than two levels.
+* We can also test multiple IVs and their combinations (more on this in later).
+
+* So, in short:
+    - If your DV is continuous, and your IV is categorical and has only two levels: Use a t-test
+    - If your DV is continuous, and your IV is categorical and has more than two levels: Use an ANOVA.
+    
+    
+## Advantages of ANOVA
+
+* Controls for Type I error in multiple-group comparisons
+    - With four groups, we’d need 6 t-tests to accomplish what one ANOVA will accomplish.
+    - That means the true p value for the t-tests would be unacceptably high because of family-wise error.
+    - The ANOVA is one overall test of differences among those four groups, and thus does not increase the Type I error rate.
+    - As a result, ANOVA is an omnibus test that protects against family-wise error.
+  
+* Allows for more complex research designs to be tested.
+
+## The *F* Distribution
+
+* Similar to the t distribution, in that the distribution changes based on degrees of freedom.
+    - Only now, we have two df figures that are meaningful: numerator df and denominator df.
+* So to use an F distribution table:
+    - Find the column for the number of between-groups (numerator) df, then go down to the row with the appropriate number of within-groups (denominator) df.
+    
+## Assumptions of One Way ANOVA
+
+* **Normality** - We assume a normal population distribution for the dependent variable for each group. ANOVA is generally robust to violations of normality.
+
+* **Homogeneity of Variances** - We assume that the population variance is the same for each group. ANOVA is generally robust to mild violations of this assumption.
+
+* **Statistical Independence** - We assume that the scores are independent of each other. ANOVA is NOT robust to violations of independence. So, if this assumptions is questionable, your results could be very misleading.
+
+* **Random Sampling** - We assume that individuals in each group were randomly sampled from their respective populations. ANOVA is also NOT very robust to violation of this assumption. If you sample does not represent your population of interest, you must really be careful with the inferences you make.
+
+
+## Homogeneity of Variance    
+
+* We assume that all groups come from the same population or populations with the same variance (or SD).
+This is the same as the t assumption of “equal variances”.
+If they didn’t have the same variance, then we would say they are “heterogeneous”.
+* Easy to test – ask for the homogeneity of variance test in SPSS or use the `LeveneTest` function from the `car` package in R.
+* The null is that the variances are equal, so if p < $\alpha$, we fail this assumption.
+The correction is not built into SPSS for heteroscedastic populations.
+
+## Statistical hypotheses
+
+### Null
+$$
+H_0: \sigma^2_{\mu} = 0.
+$$
+
+### Alternative
+$$
+H_a: \sigma^2_\mu > 0.
+$$
+
+  
+## New Notation {.smaller}
+
+Symbol     | Description
+-----------|-------------
+$k$        | number of groups
+$n$        | number in each group
+$N$        | total number of participants ($N = n \times k$)
+$df_{BG}$  | between group degrees of freedom
+$df_{E}$   | error or within-group degrees of freedom
+$SS_{BG}$  | sum of squares between group
+$SS_E$     | sum of squares error
+$SS_T$     | sum of squares total
+$MS_{BG}$  | mean square between group
+$MS_E$     | mean square error
+
+
+# Toy Example
+
+## Toy Example Scenario
+
+We are interested in comparing the how well different types of schools prepare students for college. We have sampled 3 students from a public school, 3 students from a parochial school, and 3 students from a charter school. We will compare these three groups on the high school gpa of students. Note this sample is way to small, but will allow us to make simple calculations before moving to larger data sets.
+
+## Toy Data (enter this into R) {.smaller}
+
+```{r}
+jits <- c(-.2, 0, .2)
+achieve <- data.frame(
+  gpa = c(2.5, 3.0, 3.5,
+          3.0, 3.5, 3.3,
+          3.6, 3.3, 4.0),
+  schtype = factor(c(1,1,1,2,2,2,3,3,3), 
+                      labels = c("public", "parochial", "charter"))
+)
+
+achieve <- transform(achieve,
+                     jst = as.numeric(schtype) + rep(jits, 3),
+                     grandMean = mean(gpa),
+                     groupMean = ave(gpa, schtype, FUN = mean)
+                     )
+
+# achieve <- achieve %>% 
+#   mutate(jst =  as.numeric(schtype) + rep(jits, 3),
+#          grandMean = mean(gpa)) %>% 
+#   group_by(schtype) %>% 
+#   mutate(groupMean = mean(gpa)) %>% 
+#   ungroup
+
+N <- nrow(achieve)
+k <- length(levels(achieve$schtype))
+n <- N/k
+
+kable(achieve[, 1:2])
+```
+
+
+```{r, warning=FALSE}
+describe(achieve[, -(2:3)], fast = TRUE)
+var(achieve$gpa)
+```
+
+## N, n, and k
+
+* $n$ is the sample size within groups (for now $n$ will be the same for each group)
+
+$$
+n = `r n`
+$$
+
+* $k$ is the number of groups
+
+$$
+k = `r k`
+$$
+
+* N is the total sample size
+$$
+N = n \times k = `r N`
+$$
+
+## Degrees of Freedom
+
+* Generally, the degrees of freedom ($df$) is the number of independent observations minus the number of independent parameters estimated, and can be used as an estimate of the simplicity of a model.
+
+$$
+df_{G} = k -1 = `r k -1`
+$$
+
+$$
+df_E = df_W= N - k = `r N - k`
+$$
+
+$$
+df = N - 1 = `r N - 1`
+$$
+
+## Plotting the Data
+
+```{r}
+ggplot(achieve, aes(x = schtype, gpa, color = schtype)) + geom_point()
+```
+
+## Plotting the Data (jittered)
+
+Here I jitter the data (add a little noise to the x axis) to help see better what is going on in the plots below.
+
+```{r}
+d <- ggplot(achieve, aes(x = jst, gpa, color = schtype)) + geom_point() + 
+  scale_x_discrete(name = "School Type",
+                                  labels = c("1.0" = "Public",
+                                             "2.0"= "Parochial", 
+                                             "3.0" = "Charter"))
+  
+d
+```
+
+## Plotting the Mean of gpa on the Data (calculate the mean)
+
+```{r}
+dgnd <- d + geom_hline(aes(yintercept = grandMean))
+dgnd
+```
+
+## Plotting Devations from the Grand Mean
+
+```{r}
+dgnd <- dgnd + geom_segment(aes(x = jst, xend = jst,
+                                y = grandMean, yend = gpa ))
+dgnd
+```
+
+## Calculate the Total Sum of Squares and Variance of `gpa`
+
+```{r, echo = TRUE}
+attach(achieve)
+
+(SST <- sum((gpa - grandMean)^2))
+
+(dfT <- N-1 )
+
+(Sigma2 <- SST/dfT)
+```
+
+## Plot the Group Means
+
+```{r}
+dgrp <- d + geom_hline(aes(yintercept = groupMean, color = schtype))
+dgrp
+```
+
+## Plot the Group Means and Within-Group Deviations
+
+```{r}
+dgrp <- dgrp + geom_segment(aes(x = jst, xend = jst,
+                                y = groupMean, yend = gpa))
+dgrp
+```
+
+## Calculate the Within Sum of Squares(SSW or SSE)
+
+```{r, echo = TRUE}
+(SSW <- sum((gpa - groupMean)^2))
+
+(dfW <- N - k)
+(MSW <- SSW/dfW)
+```
+
+## Plot the Group Means and the Between Sum of Squares (SSG)
+
+```{r}
+
+gdat <- data.frame(
+  groupMean = unique(achieve$groupMean),
+  grandMean = 3.3,
+  schtype = factor(c("public", "parochial", "charter"))
+)
+ggplot(gdat, aes(x = schtype, y = groupMean, color = schtype)) + 
+  geom_hline(aes(yintercept = groupMean, color = schtype)) + 
+  geom_hline(aes(yintercept = grandMean), color = "black") + 
+                    geom_segment(aes(x = schtype, xend = schtype,
+                    y = groupMean, yend = grandMean)) + 
+  ylim(2.5, 4)
+```
+
+
+## Calculate the Between Groups Sum of Squares (SSG)
+
+```{r, echo = TRUE}
+(SSG <- sum((groupMean - grandMean)^2))
+(dfG <- k - 1)
+
+(MSG <-  SSG/dfG)
+```
+
+## $F$ statistic
+
+$$
+F_{obt} = \frac{\text{variance between groups}}{{\text{variance within groups}}} = \frac{MS_{B}}{MS_W}
+$$
+```{r, echo = TRUE}
+(F <- MSG/MSW)
+```
+
+##
+
+```{r, echo = TRUE}
+(1 - pf(F, dfG, dfW))
+
+(1 - pf(2.084, 2, 6))
+```
+
+
+## Doing all this with the R function `aov()`
+
+### Test the Homogeneity Assumption
+
+This test is often underpowered, so don't take it too seriously. 
+In the current context I certainly do not think this test gives us any information (n = 9), but you should know how to do it.
+
+```{r, echo = TRUE}
+leveneTest(gpa ~ schtype, data = achieve)
+```
+
+Recall that the null hypothesis is that the variances are not different, so we would fail to reject the null, which support the assumption being reasonable. But, once again, don't take this test too seriously.
+
+### ANOVA Omnibus Test
+
+To test the research hypothesis, conduct the oneway ANOVA:
+```{r, echo = TRUE}
+mod <- aov(gpa ~ schtype, data = achieve)
+summary(mod)
+```
+
+The p-value suggests that the observed variance of the group means would be expected to occur about 20% of the time if these groups were randomly sampled from the same population, which is not typically rare enough to reject the null hypothesis (e.g. if mindlessly set the $\alpha$ to .05).
+Said differently, the p value is too large to reject the null. 
+
+## Statistical hypotheses
+
+### Null
+$$
+H_0: \sigma^2_{\mu} = 0.
+$$
+
+### Alternative
+$$
+H_a: \sigma^2_\mu > 0.
+$$
+

@@ -1,0 +1,64 @@
+---
+title: "Multiple Comparisons"
+author: "William Murrah"
+date: "7/22/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Omnibus vs. Pairwise Tests
+
+* The F-test is an omnibus test – it tests for overall differences among the groups.
+* We are often interested in knowing specifically which groups are different from one another. This requires pairwise comparisons.
+* We can do this in one of two ways:
+    - Post-hoc comparisons: 
+        + We analyze all possible pairwise combinations after the fact.
+        + We do this when we have no theoretically specified comparisons, and are simply interested in where differences exist.
+    - A priori comparisons:
+        + We specify specific comparisons before the fact.
+        + We do this when we have theoretically or empirically derived comparisons in which we are specifically interested.
+        
+## Post-hoc Tests {.smaller}
+
+* There are three tests in popular use (because they can accommodate unequal samples):
+    - Tukey (most liberal)
+    - Scheffe (most conservative)
+    - Bonferonni (somewhere in the middle)
+* Which test should you use?
+    - Use Tukey in more exploratory situations, because it is less conservative, and therefore has the most power.
+    - Use Scheffe to be conservative, to minimize risk of Type I error.
+    - Use Bonferonni if you want to be halfway between risky but powerful and low-risk of Type I. It is moderately conservative, thus giving somewhat higher power than Scheffe.
+    - Scheffe is probably most popular, but sometimes people prefer Tukey because of the higher probability of finding a significant difference.
+
+
+##  Post-Hoc Comparisons
+
+## Pairwise Comparisons
+
+It is important to control the **experimentwise alpha** so that the probabilty of rejecting the null, assuming the null is true is equal to or less than the pre-established alpha level (e.g. $\alpha = .05$).
+
+## Fisher's Least Significant Difference (LSD) Test
+
+Fisher's LSD is the most liberal post-hoc test generally accepted in published research.
+
+$$
+\text{Fisher's LSD}:  t_\alpha \sqrt{MS_E \bigg( \frac{1}{n_1} + \frac{1}{n_2}\bigg)},
+$$
+
+where $t_\alpha$ is the critical value for a two-tailed *t* test at $\alpha = .05$.
+
+
+
+## Tukey's Honestly Significant Difference (HSD) Test
+
+Tukey's HSD is more conservative than Fisher's LSD.
+
+$$
+\text{Tukey's HSD}: q_\alpha \sqrt{\frac{MS_E}{n}},
+$$
+
+where $q_\alpha$ is the **studentized range statistics** which can be found using table B.4 in the appendix of the textbook.
