@@ -61,4 +61,6 @@ $$
 \text{Tukey's HSD}: q_\alpha \sqrt{\frac{MS_E}{n}},
 $$
 
-where $q_\alpha$ is the **studentized range statistics** which can be found using table B.4 in the appendix of the textbook.
+where $q_\alpha$ is the **studentized range statistics**.
+
+## Scheffe

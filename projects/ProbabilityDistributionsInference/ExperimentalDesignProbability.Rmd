@@ -1,0 +1,71 @@
+---
+title: "Binomial Distribution"
+
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+p <- .4
+q <- 1 - p
+x <- c(0,1)
+P.x <- c(p, q)
+E.X <- sum(c(x*P.x))
+```
+
+
+```{r}
+n <- 10
+set.seed(20200723)
+x <- sample(0:1, n, replace = TRUE, prob = P.x)
+
+table(x)
+```
+
+
+
+
+If $p$ is the probability of success, then let $q = 1 - p$, the probability of failure.
+
+
+
+$$
+P(x) = {n \choose x} p^x q^{n-x}
+$$
+$$
+{n \choose x} = \frac{n!}{x!(n-x)!}
+$$
+```{r}
+p <- .6
+q <- 1 - p
+n <- 5
+x <- 3
+choose(n, x)
+```
+
+### Example
+
+```{r}
+
+factorial(n)
+```
+
+```{r}
+factorial(x)
+```
+
+```{r}
+factorial(n - x)
+```
+
+```{r}
+factorial(n)/(factorial(x) * factorial(n - x))*p^x*q^(n - x)
+```
+
+
+
+
+

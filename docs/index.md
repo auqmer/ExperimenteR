@@ -4,6 +4,12 @@ layout: default
 
 This website contains materials to help you learn about analyzing experimental data, using R.
 
+### Links:
+
+#### [QMER Home Page](https://aub.ie/qmer)
+
+#### [QMER R User Group Home Page](https://auqmer.github.io/qmer_rug/)
+
 
 ## Content
 
