@@ -32,9 +32,14 @@ This website contains materials to help you learn about analyzing experimental d
 
 #### Graphics: Understanding your data
 
-#### Central Tendency and Variability
+#### Central Tendency
 
 * [Tutorial](https://auqmer.github.io/ExperimenteR/centralTendency.html)
+
+#### Variability
+
+#### Standardized Scores
+
 
 ### Probability, Distributions and Inference
 
