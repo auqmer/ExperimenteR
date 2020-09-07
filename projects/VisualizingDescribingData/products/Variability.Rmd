@@ -1,38 +1,31 @@
 ---
 title: "Measures of Variability"
-author: "William Murrah"
-date: "9/1/2020"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, comment = NULL)
+options(digits = 2, scipen=999)
 ```
 
-## Learning Objectives
-
-After studying this chapter, you should be able to: 
-
-1. Compute and interpret a range, interquartile range, and semi-interquartile range. 
-2. Compute and interpret the variance and standard deviation for a population and sample of data using the definitional formula. 
-3. Compute and interpret the variance and standard deviation for a population and sample of data using the computational formula. 
-4. Explain why the sample variance and population variance are computed differently.
-5. State the characteristics of the standard deviation and explain the empirical rule. 
-6. Compute the range, variance, and standard deviation using SPSS.
+While central tendency is important, we often want to understand more than just were the center of a distribution is located, we often also find useful measures of the spread of the values around the center.
+Such statistics are referred to as measures of dispersion or variability. 
+Common measures I will discuss in this tutorial include the range, interquartile range, variance, and standard deviation.
 
 ## Packages Used
+
+I use the following packages in this tutorial.
+
 ```{r, message=FALSE, warning=FALSE}
 library(psych)
 library(ggplot2)
 ```
 
 
-## Important Notation (Repeated)
+## Important Notation
 
 Scientific notation, while often confusing and frustrating initially, is very useful in helping to convey complex ideas in a compact and precise manner.
 The table below contains scientific notations relevant to measures of variability.
-
-## Important Notation | (Continued)
 
 Symbol       | meaning
 -------------|----------
@@ -45,7 +38,7 @@ $s$          |sample standard deviation
 
 ## Measures of Variability or Dispursion
 
-* A measure of central tendency is not sufficeint to describe a numerical variable. 
+* A measure of central tendency is not sufficient to describe a numerical variable. 
 * In addition to information about the typical value, we also want to know how scores vary (or are dispersed) around the typical score. 
 
 ## Range
@@ -53,9 +46,6 @@ $s$          |sample standard deviation
 We need some way to quantify the variability of the scores in distributions that reflects all scores and is sensitive to outliers.
 We already have a single score for the average or "typical" score - the mean.
 Ideally, we want a single number that represents the typical variation from the mean. 
-
-## Range
-
 The range is the simplest way to describe variability or how scores are dispersed across possible values.
 The range is the difference between the highest and lowest values in the variable.
 
@@ -67,7 +57,7 @@ The range is the difference between the highest and lowest values in the variabl
 * For example, see the histogram of GRE scores above. 
 * This makes a major limitation of the range apparent: it is based on only two of the scores in the variable.
 
-## Range
+### Example
 
 GRE scores for two classes with the same mean (151.3) and same range (40):
 
@@ -84,6 +74,11 @@ abline(v = mean(x2), col = "red", lwd = 2)
 par(mfrow = c(1, 1))
 ```
 
+```{r}
+range(x1)
+range(x2)
+```
+
 ## Quantiles
 
 * Quantiles are a set of values in a variable that divide it into equal groups.
@@ -93,13 +88,38 @@ par(mfrow = c(1, 1))
     - and the third or upper quartile separates the lower 75% from the upper 25%. 
 * These three quartiles separate the variable into 4 equal parts.
 
+For example, we can get the quartiles of using the `quantiles()` function in R. 
+Here I do this for `x1`above.
+```{r}
+quantile(x1)
+quantile(x2)
+```
+
+## Interquartile Range
+
+The interquartile range is simply the range of values from the   $25^{th}$ and $75^{th}$ quartiles.
+A benefit of this measures is that is is not as sensitive to outliers as the range.
+For the above example, the interquartile range is 146 - 156.
+Notice that the $50^{th}$ quantile, which is the second quartile, is the median:
+
+```{r}
+quantile(x1, probs = c(.25, .75))
+
+median(x1)
+```
+
 ## Variance
 
-* The variance is a very important measure of variability.
-* It is also closely related to the standard deviation, which we talk about next.
+A major limitation of the range and interquartile range is that they are calculated with only two values in the data.
+What we really want is a measure of dispersion that takes into consideration all the values in the variable.
+The variance does this.
+The variance is a very important measure of variability.
+It is also closely related to the standard deviation, which we talk about next.
+In words the variance is the average squared deviation
+But let's try to understand why we calculate the variance the way we do.
+To do that we need to understand deviations.
 
-
-## Deviance
+### Deviance
 
 We can calculate the distance between the mean and each score. These distances are called deviations. Each score has a deviation. I have plotted the histogram of the deviations for each of the two classes GRE scores below.
 
@@ -115,23 +135,16 @@ par(mfrow = c(1, 1))
 
 ```
 
-
-## Deviance
-
-* We might think to just take the mean of the deviations as a measure of the average or "typical" distance from the mean for each set of scores. 
-* But, the mean deviation for the first score is `r round(mean(d1))` and the mean deviation for the second set is `r round(mean(d2))`. 
-* This is because, being a measure of central tendency, the mean is in the middle, and the positive distances of scores above the mean cancel out the negative distances below the mean.
-
-## Deviance
+We might think to just take the mean of the deviations as a measure of the average or "typical" distance from the mean for each set of scores. 
+But, the mean deviation for the first score is `r round(mean(d1))` and the mean deviation for the second set is `r round(mean(d2))`. 
+This is because, being a measure of central tendency, the mean is in the middle, and the positive distances of scores above the mean cancel out the negative distances below the mean.
 
 We could take the mean of the absolute values of the deviations, but a more ingenious solution is to square the deviations. 
 
 This does two things:
 
 1. Squaring takes care of the problem of the deviations summing to 0, as all the squared deviations will be positive. Remember, positive times a positive is a positive, but a negative times a negative is also a positive.
-2. Because deviations are squared, numbers further from the mean have a greater influence than those closer to the mean. Therefore, deviations are sensitive to outliers.
-
-## Deviance
+2. Because deviations are squared, numbers further from the mean have a greater influence than those closer to the mean. Therefore, deviations are sensitive to outliers. This can be good or bad, depending on the situation.
 
 The sum of the squared deviations is often referred to simply as the "sum of squares", and symbolized as $SS$.
 The sum of squares is not very meaningful by itself, so we often calculate the mean squared deviation, by dividing the $SS$ by $N$.
@@ -146,7 +159,7 @@ $$
 ### Sample Variance
 
 $$
-s^2 = \frac{\Sigma{(x - M)^2}}{n - 1}
+s^2 = \frac{\Sigma{(x - \bar{X})^2}}{n - 1}
 $$
 
 ## Comparing formulae for mean and variance
@@ -191,67 +204,5 @@ The standard deviation of x1 is `r round(sd(x1),2)` and the standard deviation o
 ```{r}
 d <- data.frame(x1, x2)
 describe(d, fast = TRUE)
-```
-
-## Standard Normal Distribution
-
-```{r}
-
-## Standard Normal Distribution Labelled.
-
-xvalues <- data.frame(x = c(-3, 3))
-plot <- ggplot(xvalues, aes(x))
-
-
-area_one_sd <- round(pnorm(1) - pnorm(-1), 4)
-area_two_sd <- round(pnorm(2) - pnorm(-2), 4)
-area_three_sd <- round(pnorm(3) - pnorm(-3), 4)
-# Shading from x = -1 to x = 1 (within one std deviation):
-
-dnorm_one_sd <- function(x){
-  norm_one_sd <- dnorm(x)
-  # Have NA values outside interval x in [-1, 1]:
-  norm_one_sd[x <= -1 | x >= 1] <- NA
-  return(norm_one_sd)
-}
-
-# Shading from x = -2 to x = 2 (within two std deviations):
-
-dnorm_two_sd <- function(x){
-  norm_two_sd <- dnorm(x)
-  # Have NA values outside interval x in [-2, 2]:
-  norm_two_sd[x <= -2 | x >= 2] <- NA
-  return(norm_two_sd)
-}
-
-# Shading from x = -3 to x = 3 (within three std deviations):
- 
-dnorm_three_sd <- function(x){
-  norm_three_sd <- dnorm(x)
-  # Have NA values outside interval x in [-3, 3]:
-  norm_three_sd[x <= -3 | x >= 3] <- NA
-  return(norm_three_sd)
-}
-
-
-# Summary plot for normal distribution (Version Two)
-
-plot + stat_function(fun = dnorm) + 
- stat_function(fun = dnorm_three_sd, geom = "area", fill = "#03244d", alpha = 1) +
- stat_function(fun = dnorm_two_sd, geom = "area", fill = "#dd550c", alpha = 1) +
- stat_function(fun = dnorm_one_sd, geom = "area", fill = "#496e9c", alpha = 1) +
- geom_text(x = 0, y = 0.22, size = 4, fontface = "bold",
- label = paste0("<------- ", round(area_one_sd * 100, 0), "%", " ------->")) +
- geom_text(x = 0, y = 0.15, size = 4, fontface = "bold",
- label = paste0("<------------- ", round(area_two_sd * 100, 0), "%", 
- " ------------->")) +
- geom_text(x = 0, y = 0.025, size = 4, fontface = "bold",
- label = paste0("<-------------------------- ", round(area_three_sd * 100, 1), 
- "%", " -------------------------->")) +
- scale_x_continuous(breaks = c(-3:3)) + 
- labs(x = "\n sd", y = "Density \n", title = "Standard Normal Distribution \n") +
- theme(plot.title = element_text(hjust = 0.5), 
- axis.title.x = element_text(face="bold", colour="blue", size = 12),
- axis.title.y = element_text(face="bold", colour="blue", size = 12)) 
 ```
 

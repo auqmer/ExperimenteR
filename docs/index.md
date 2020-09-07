@@ -35,8 +35,12 @@ This website contains materials to help you learn about analyzing experimental d
 #### Central Tendency
 
 * [Tutorial](https://auqmer.github.io/ExperimenteR/centralTendency.html)
+* [Video](https://auburn.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=8d53677e-f7e5-4c52-88e8-ac2f0133d380)
 
 #### Variability
+
+* [Tutorial](https://auqmer.github.io/ExperimenteR/variability.html)
+* [Video](https://auburn.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=cad74732-e286-45be-8388-ac2f0144260b)
 
 #### Standardized Scores
 
