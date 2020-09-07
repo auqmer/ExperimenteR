@@ -1,0 +1,32 @@
+---
+title: "Why we Need Statistics"
+author: "William Murrah"
+date: "8/25/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This post is based on the first chapter of the open source textbook *Learning Statistics with R: A tutorial for psychology students and other beginners*, by Danielle Navarro.
+The book can be found at https://learningstatisticswithr.com/.
+
+We need statistics, and really science in general, because we are biased. 
+Each of us has a model of the world that is influenced many factors, such as our experiences, past and present environments, values, goals, and expectations.
+Researchers are no exception, and most often begin a study expecting certain results. 
+And, often the results have important implications for the researcher.
+If one has acquired a large grant to conduct a study, and nothing much was learned, this might impede the progress of this researcher's career.
+So, we can't rely on our common sense to make sense of the data.
+
+Another reason we use statistics is because reality is extremely complicated. 
+The *Learning Statistics with R*, or *lsr* for short, chapter gives an example Simpson's paradox to demonstrate how the complexity of reality can impede a clear understanding of an important issue.
+
+So, there are at least two reasons we need statistics, 1. to check our biases, and 2. to help tease out the complexities of what we are studying.
+However, it is very important to realize that the use of statistics does not, and cannot, replace clear reasoning by the researcher. 
+Statistics is a tool, and a very valuable one, but to work it must be used correctly.
+Richard McElreath, in his excellent book entitled *Statistical Rethinking* (2020), describes statistical models as golems, which are mindless automatons that, while extremely powerful, faithfully obey commands, sometimes to the demise of those it serves.
+We need to keep in mind that statistical methods are mindless tools and not oracles of truth. 
+These tools can give us important information, but we must do the thinking.
+Remember, **Statistics can help us to think clearly, but statistics cannot replace clear thinking**. 
+

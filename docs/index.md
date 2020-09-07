@@ -4,6 +4,7 @@ layout: default
 
 This website contains materials to help you learn about analyzing experimental data, using R.
 
+
 ### Links:
 
 #### [QMER Home Page](https://aub.ie/qmer)
@@ -13,11 +14,27 @@ This website contains materials to help you learn about analyzing experimental d
 
 ## Content
 
+### Research Design
+
+#### The Value of Quantitative Methods
+
+* How I see the Philosophy of Science
+    - [Post]
+
+* Why we Need Statistics
+    - [Post]
+
+* A Brief Introduction to Research Design
+    - [Tutorial]
+    - [Video]
+
 ### Visualizing and Describing Data
 
-Graphics: Understanding your data
+#### Graphics: Understanding your data
 
-Central Tendency and Variability
+#### Central Tendency and Variability
+
+* [Tutorial](https://auqmer.github.io/ExperimenteR/centralTendency.html)
 
 ### Probability, Distributions and Inference
 
