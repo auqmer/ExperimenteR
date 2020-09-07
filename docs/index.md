@@ -39,7 +39,7 @@ This website contains materials to help you learn about analyzing experimental d
 
 #### Variability
 
-* [Tutorial](https://auqmer.github.io/ExperimenteR/variability.html)
+* [Tutorial](https://auqmer.github.io/ExperimenteR/Variability.html)
 * [Video](https://auburn.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=cad74732-e286-45be-8388-ac2f0144260b)
 
 #### Standardized Scores
