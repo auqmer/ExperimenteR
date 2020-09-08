@@ -1,0 +1,146 @@
+---
+title: "Exploring Data Graphically"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,comment = NULL)
+```
+
+
+```{r, message=FALSE, warning=FALSE}
+library(mosaic)
+```
+
+
+Before you start simplifying your data with descriptive statistics, it is essential that you explore all your data. 
+A reasoned use of graphics is indispensable for this purpose.
+In this tutorial, I will demonstrate some of the most commonly used graphical methods to explore experimental data.
+
+R has extensive methods for graphics, which allow for amazing visualizations of data. 
+My purpose here is to teach you the basics of graphics, so I will stick with some relatively simple graphics in base R.
+
+## Bar Graphs 
+
+Typically, the type of graph you use depends on the type of data you are exploring. 
+
+We will use the `mtcars` data, which is part of base R. 
+Below, I load the data, then transform two variables to factors, which is how R handles categorical variables.
+Take a look at the help file for `mtcars` by typing `?mtcars` into the R console. 
+Look at the data description under the "Format" heading to see how I decided to label the two factors vs and am. 
+You should also read through this list of variable names and labels to understand what our data are measuring.
+
+```{r}
+data(mtcars)
+
+mtcars <- transform(mtcars,
+                    vs = factor(vs, labels = c("v-shaped", "straight")),
+                    am = factor(am, labels = c("automatic", "manual")))
+```
+
+When we have a categorical variable, we often want to know how many cases are in each category. 
+In R a categorical variable is called a factor, and the categories within that variable are called levels. 
+Let's look at the vs factor, which describes the shape of the engine for each car.
+First, I will simply table this variable:
+
+```{r}
+table(mtcars$vs)
+```
+We can see that we have 18 cars with a V-shaped engine and 14 with a straight engine.
+Next, I will use the table function to create a bar plot.
+
+```{r}
+barplot(table(mtcars$vs))
+```
+
+Note, that the bar plot needs tabled data, so the `table()` function is nested within the first argument to this plot.
+
+
+```{r, eval=FALSE}
+tab <- table(mtcars$vs, mtcars$am)
+colnames(tab)
+barplot(tab, beside = TRUE, legend.text = rownames(tab), 
+        main = "Comparing engine shape to transmission type", )
+```
+
+## Histograms
+
+Similar to the bar graph is the histogram. 
+The major difference is that histograms are most often used with continuous variables, instead of categorical variable.
+While bar graphs have natural groupings (the categories or levels), continuous variables do not.
+So, to create a histogram a continuous variable is binned into groups and the frequencies of cases in the range of those groups is plotted with a bar. 
+
+```{r}
+hist(mtcars$mpg)
+```
+It is very important to remember that when you create a histogram a decision is being make about how to bin the data. 
+This can impact the shape of the distribution, and your interpretation. 
+It is often a good idea to play around with this binning.
+To do that in the R `hist()` function you can use the `breaks = ` argument.
+This allows you to set the number of bins.
+For example, compare the two histograms of `mpg`.
+
+```{r}
+hist(mtcars$mpg, breaks = 3, main = "Histogram pf mpg with 3 breaks")
+
+hist(mtcars$mpg, breaks = 13, main = "Histogram of mpg with 13 breaks")
+```
+
+Also note that I called for 13 bins, but was given less than that.
+So, the `hist()` function only takes this value as a suggestion.
+See `?hist` for more information.
+
+
+```{r, eval = FALSE}
+plot(density(mtcars$mpg))
+```
+
+## Boxplots
+
+Boxplots or box and whisker plots, are also useful for exploring the distribution of continuous variables. 
+These plots visualize the median, interquartile range, the full range,  and look for extreme values.
+
+```{r}
+boxplot(mtcars$mpg)
+```
+
+```{r}
+(qtle <- quantile(mtcars$mpg))
+boxplot(mtcars$mpg, horizontal = TRUE)
+text(x = qtle[1], y = 1.3, labels = paste("0%\n", qtle[1]))
+text(x = qtle[2], y = 1.3, labels = paste("25%\n", qtle[2]))
+text(x = qtle[3], y = 1.3, labels = paste("50%\n", qtle[3]))
+text(x = qtle[4], y = 1.3, labels = paste("75%\n", qtle[4]))
+text(x = qtle[5], y = 1.3, labels = paste("100%\n", qtle[5]))
+hist(mtcars$mpg)
+```
+
+
+```{r}
+boxplot(mpg ~ vs, data = mtcars)
+```
+
+
+```{r}
+boxplot(mpg ~ vs * am, data = mtcars, las = 3, ann = FALSE, xaxt = "n")
+title(ylab = "Miles per Gallon", 
+      xlab = "Engine Shape and Transmission Type",
+      main = "Miles per Gallon by Engine Shape and Transmission Type")
+axis(side = 1, at = 1:4, mgp = c(1,2,0), 
+     labels =c("V-shaped\nAutomatic", "straight\nAutomatic", 
+                                   "V-shaped\nManual", "straight\nManual"))
+```
+
+
+## Scatterplots
+
+Scatterplots are useful when we want to compare two numeric variables.
+For example, let's look at the relation between miles per gallon and horsepower.
+
+```{r}
+plot(mpg ~ hp, data = mtcars)
+```
+
+Note that each point on the plot represents a single car, and indicates it's horsepower on the x axis and it's miles per gallon on the y axis. 
+For example, the car represented by the left most point has a hp of about 50 and a mpg of a little more than 30.
+We see a negative relation between these two variables, a car with more horsepower is likely to have a lower miles per gallon.

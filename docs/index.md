@@ -32,6 +32,9 @@ This website contains materials to help you learn about analyzing experimental d
 
 #### Graphics: Understanding your data
 
+* [Tutorial](https://auqmer.github.io/ExperimenteR/graphing.html)
+* [Video] Coming Soon
+
 #### Central Tendency
 
 * [Tutorial](https://auqmer.github.io/ExperimenteR/centralTendency.html)
