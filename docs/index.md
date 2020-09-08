@@ -33,7 +33,7 @@ This website contains materials to help you learn about analyzing experimental d
 #### Graphics: Understanding your data
 
 * [Tutorial](https://auqmer.github.io/ExperimenteR/graphing.html)
-* [Video] Coming Soon
+* [Video](https://auburn.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=7d27afac-a19c-4df3-823c-ac30011ffccc)
 
 #### Central Tendency
 
