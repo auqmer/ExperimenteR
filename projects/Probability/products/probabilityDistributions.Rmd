@@ -1,0 +1,33 @@
+---
+title: "Probability Distributions"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Binomial Distribution
+
+## Normal Distribution
+
+## Some Other Distributions
+
+### $t$ Distribution
+
+The $t$ distribution is similar to the standard normal distribution, but with fatter tails.
+It is used when we don't know the mean or the standard deviation.
+The fatter tails adjust for the additional uncertainty of the standard deviation, and the additional "noise" from estimating it from the sample.
+
+
+### $\chi^2$ Distribution
+
+The $\chi^2$ distributions is used when we are dealing with multiple normally distributed variables.
+It is obtained when we sum the squared values of the various normally distributed variables. 
+This distribution is often used when we deal with categorical variables.
+
+### $F$ Distribution
+
+The $F$ distribution is used when we want to compare two $\chi^2$ distributions.
+We will use if often when we use analysis of variance (ANOVA), and regression modeling.

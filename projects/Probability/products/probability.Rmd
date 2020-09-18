@@ -1,0 +1,214 @@
+---
+title: "Introduction to Probability"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## Probability Theory: Some Terminology
+
+*experiment*  - any process for which the outcome is unknown in advance (we are not using this term the same way we do in experimental design).
+
+*outcome*  - a possible result of an experiment (another name for event).
+
+*elementary event* - a possible outcome of our experiment.
+
+*sample space* - the set of all possible outcomes for an experiment.
+
+*trial* - each repetition of an experiment.
+
+
+## Sample Space
+
+The *Sample space*, S, consists of all the possible outcomes of an experiment.
+
+for a coin:
+$$
+S  = \{H, T\}.
+$$
+for a six sided die:
+$$
+S  = \{1, 2, 3, 4, 5, 6\}.
+$$
+
+## Three Definitions of Probability
+
+1. Classical 
+2. Relative Frequency (Frequentist)
+3. Subjective Uncertainty (Bayesian)
+
+##  Classical Definition
+
+If there are *o* equally likely outcomes in S, and there are *m* favorable outcomes, or successes, of event *E* then:
+
+$$
+p(E) = \frac{m}{o} = \frac{\text{no. favorable events}}{\text{no. outcomes}}
+$$
+If the outcomes are not equally likely, this definition will not work. 
+
+## Relative Frequency Definition
+
+The probability of an outcome is the proportion of times the outcome or event would occur in an infinite number of repeated experiments. Because we can't repeat an experiment an  infinite number of times, we settle for a large number of repetitions.
+
+If *x* is a vector of outcomes in event *E* for *n* trials, where *n* is a large number, and $f(x)$ is the frequency of outcomes in event *E*, then the probability of this event is:
+
+$$
+p(E) = \frac{f(x)}{n}
+$$
+
+Therefore, the probability of the event is the **long-run frequency** of the event occurring.
+
+## Bayesian Definition
+
+Often referred to as subjective probabilities or considered a measure of the degree of belief of a statement.
+But there are other ways to think about the Bayesian viewpoint. 
+More generally, the Bayesian viewpoint is about quantifying our degree of certainty, or better our degree of uncertainty. It is a way to escape dichotomous thinking when predicting events. 
+
+
+
+## Relations Between Outcomes
+
+* Mutually exclusive outcomes
+
+When two events cannot both occur together. Mathematically, we say that the intersection of $A$ and $B$ is 0.
+
+$$
+p(A \cap B) = 0,
+$$
+where $\cap$ is the symbol for "and" or intersection.
+We also call this the **joint** probability of $A$ and $B$.
+
+For example, compare the probability of getting a red card and a face card to the probability of getting a even numbered card and a face card. 
+
+## Additive rule
+
+The probability of one or the other mutually exclusive events occurring is
+
+$$
+p(A \cup B) = p(A) + P(B),
+$$
+where $\cup$ is the symbol for "or" or union.
+
+So, what is the probability of getting an even numbered card or a face card?
+
+## Independent outcomes
+
+When the probability of one event does not affect the probability the other event, they are considered *independent*.
+
+So, rolling a 5 on the first roll of a six sided die does not affect the probability of any of the outcomes of the second role (e.g. they are independent). But, if we draw a red queen from a deck of cards and we DON'T replace the card, it does influence the probability of outcomes on the second draw from the deck( e.g. the draws are NOT independent).
+
+
+## **multiplicative rule**
+
+The probability of two independent outcomes both occurring is the product of their individual probabilities
+
+$$
+p(A \cap B) = p(A)p(B).
+$$
+
+## Complementary outcomes
+
+Two events are *complementary* if the sum of their probabilities is 1.00.
+
+$$
+p(A) + p(B) = 1.00.
+$$
+
+## Conditional outcomes
+
+Two events are *conditional* when the occurrence of one changes the occurrence of the other.
+
+$$
+p(A \mid B) = \frac{p(A \cap B)}{p(B)},
+$$
+
+where the $\mid$ symbol is read as "given". This statement means that the probability of A given that B occurred, $p(A\mid B)$, is the probability of both A and B occurring, $p(A \cap B)$, divided by the probability of B occurring, $p(B)$.
+
+## **IMPORTANT!!!**
+
+**It is very important to know that $p(A\mid B)$ is generally not the same as $p(B\mid A)$.**
+
+
+## Bayes Theorem
+
+$$
+p(A \mid B) = \frac{p(B \mid A)p(A)}{P(B)}
+$$
+
+## Probability Distrubutions
+
+A *random variable* is a variable that can lead to many possible outcomes in a random experiment. Similar to a random event, it is an outcome variable for which we do not know the outcome before conducting the experiment.
+
+
+## Mean of a probability distribution
+
+Let `x` be a random variable:
+
+$$
+x = (1,2,2,2,3)
+$$
+1. Original Mean formula.
+
+
+$$
+\bar{x} = \frac{\Sigma{x}}{n} =  \frac{\Sigma{(1,2,2,2,3)}}{5} =  \frac{10}{5} = 2
+$$
+
+Since multiplying a number by 1/n is the same as dividing by n:
+
+$$
+\bar{x} = \frac{1}{n}\Sigma{x} = \frac{1}{5}\Sigma{(1,2,2,2,3)} = \frac{1}{5}10 = 2
+$$
+
+##
+
+Distributing the $\frac{1}{n}$ across the summation we get:
+
+$$
+\bar{x} = \Sigma{\Big(x \frac{1}{n}}\Big)  = (1\times\frac{1}{5}+2\times\frac{1}{5}+2\times\frac{1}{5}+2\times\frac{1}{5}+ 3\times\frac{1}{5} )
+$$
+$$
+= (.2+.4+.4+.4+.6) = 2
+$$
+
+If $f(x)$ is the number of outcomes for a specific value of the random variable, then:
+$$
+\bar{x} = \Sigma{\Big(x \frac{f(x)}{n}}\Big)
+= \Big(1\frac{1}{5}+2\frac{3}{5}+ 3\frac{1}{5} \Big)
+$$
+$$
+= (.2+1.2+.6)
+= 2
+$$
+
+Finally, because we are using the relative frequency definition of probability, 
+
+$$
+\frac{f(x)}{n} = p(x).
+$$
+
+##
+
+So, the mean of a probability distribution is
+
+$$
+\bar{x} = \Sigma{(p(x)x)}
+$$
+
+
+## Variance and standard deviation of a probability distribution
+
+It should be fairly straightforward to see that the variance of a probability distribution is
+
+$$
+s^2  = \Sigma{\Big( p(x)(x - \bar{x})^2 \Big)},
+$$
+
+and the standard deviation is
+
+$$
+s = \sqrt{\Sigma{\Big( p(x)(x - \bar{x})^2 \Big)}}
+$$
